@@ -44,7 +44,7 @@
 
 
 # Total Commander 사용법
-[Total Commander Download](https://www.ghisler.com/download.htm)
+[Total Commander Download](https://www.ghisler.com/download.htm)  
 [FileInfo Plugin Download](https://totalcmd.net/plugring/fileinfo.html)
 
 1. Total Commander를 다운로드한다.
