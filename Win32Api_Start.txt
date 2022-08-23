@@ -1,0 +1,25 @@
+///////////// WIN32 API 프로그램이 실행되기 위한 가장 기본적인 코드형태 //////////////
+#include <Windows.h>
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, LPSTR CmdPrm, int CmdShow)
+{
+    MessageBox(NULL, _T("메시지 박스입니다."), _T("메시지 박스"), MB_OK);
+    return 0;
+}
+
+
+
+// VC로 컴파일 했을 때 실행파일에서 제일 먼저 호출되는 함수
+
+int WinMainCRTStartup()
+{
+    int iRet;
+    STARTUPINFO SI;
+    SI.dwFlags = 0;
+    GetStartupInfo(&SI);
+    iRet = WinMain(GetModuleHandle(0), 0, GetCommandLine(), SI.dwFlags & STARTF_USESHOWWINDOW ? SI.wShowWindow : SW_SHOWDEFAULT);
+
+    ExitProcess(iRet);
+
+    return iRet;
+}
+
