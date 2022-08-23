@@ -43,4 +43,15 @@
 - NTDLL.DLL : C언어 문자열관련 런타임함수, memcpy, _allmul
 
 
+# Total Commander 사용법
+[Total Commander Download](https://www.ghisler.com/download.htm)
+[FileInfo Plugin Download](https://totalcmd.net/plugring/fileinfo.html)
 
+1. Total Commander를 다운로드한다.
+2. FileInfo Plugin을 다운로드해서 압축을 푼다.
+3. 압축푼 파일 중 64bit인 경우 fileinfo.wtx64, 32bit인 경우 fileinfo.wtx 파일을 C:/windows/system32 폴더에 복사한다.
+4. Total Commander 프로그램을 실행 후 맨 위 탭에서 환경설정 > 옵션에 들어간다.
+5. 옵션에 들어간 후 왼쪽 목록에서 플러그인 항목을 클릭한다.
+6. 플러그인 항목에서 리스터(내장 뷰어)플러그인을 클릭한다.
+7. 아래 추가 버튼을 누른 후 system32 폴더에 복사된 fileinfo.wtx(64) 파일을 추가한다. 
+8. 추가했으면 확인버튼을 누른다. 
