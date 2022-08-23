@@ -14,11 +14,23 @@
 13. 프라퍼티 쉬트 (설치용)
 
 # WIN32 API 강의 링크 (죠우저프님)
-[WIN32 API 프로그래밍 강의 1 - 소개](https://www.youtube.com/watch?v=UfLe6q2K8JY&t=313s)
-
-
-
-
+1. [WIN32 API 프로그래밍 강의 1 - 소개](https://www.youtube.com/watch?v=UfLe6q2K8JY&t=313s)
+2. [WIN32 API 프로그래밍 강의 - WinMain](https://www.youtube.com/watch?v=7mVx3oiB7s4)
+3. [WIN32 API 프로그래밍 강의 (버튼/에디트 콘트롤)](https://www.youtube.com/watch?v=OKDMCVRAn4w)
+4. [WIN32 API 프로그래밍 - 리스트 콘트롤/콤보콘트롤 (1)](https://www.youtube.com/watch?v=PkYXuVddT9s)
+5. [WIN32 API 프로그래밍 - 리스트 콘트롤/콤보콘트롤 (2)](https://www.youtube.com/watch?v=fvgJxRYsDUc)
+6. [WIN32 API 프로그래밍 - 스태틱 콘트롤](https://www.youtube.com/watch?v=cVxQdzSf7p0)
+7. [WIN32 API 프로그래밍 - GUI (HDC)](https://www.youtube.com/watch?v=2uBq4KOY3kU)
+8. [WIN32 API 프로그래밍 - 커스텀 콘트롤 (1)](https://www.youtube.com/watch?v=dkTHR6wvzIk)
+9. [WIN32 API 프로그래밍 - 8. 커스텀 콘트롤 (2) (11회)](https://www.youtube.com/watch?v=9ow4OxHulZ4)
+10. [WIN32 API 프로그래밍 - 9. 리스트뷰 콘트롤 (12강)](https://www.youtube.com/watch?v=Eh6Emat__Mo)
+11. [WIN32 API 프로그래밍 - 10. 트리뷰 콘트롤 (13강)](https://www.youtube.com/watch?v=QfXWyPIi0u8)
+12. [WIN32 API 프로그래밍 - 11. 기타 콘트롤 살펴보기 (14강)](https://www.youtube.com/watch?v=vXgcFfmLiFc)
+13. [WIN32 API 프로그래밍 - 12-1. 대화상자 만들기 (15강)](https://www.youtube.com/watch?v=VTsSd08eZt0)
+14. [WIN32 API 프로그래밍 - 12-2. 모달형과 모달리스형 대화상자 (16강)](https://www.youtube.com/watch?v=_2IJRueNwYI)
+15. [WIN32 API 프로그래밍 - 12-3. 버튼 그래픽으로 옷입히기 (17강)](https://www.youtube.com/watch?v=1YlcfYmAeqc)
+16. [WIN32 API 프로그래밍 - 12-4. 대화상자 그래픽으로 옷입히기 (18강)](https://www.youtube.com/watch?v=YhUKSt-Bem4)
+17. [WIN32 API 프로그래밍 - 13. 프라퍼티 쉬트 (19강)](https://www.youtube.com/watch?v=9vfKYd_n9Rs)
 
 # WIN32 API 개념
 - 윈도우즈 어플리케이션을 만들기 위해 os에서 제공하는 함수들이다.
