@@ -13,7 +13,7 @@
 12. 대화상자 만들기 (샘플 프로그램 제작)
 13. 프라퍼티 쉬트 (설치용)
 
-# WIN32 API 강의 링크 (죠우저프님)
+# WIN32 API 강의 링크 (with 죠우저프)
 1. [WIN32 API 프로그래밍 강의 1 - 소개](https://www.youtube.com/watch?v=UfLe6q2K8JY&t=313s)
 2. [WIN32 API 프로그래밍 강의 - WinMain](https://www.youtube.com/watch?v=7mVx3oiB7s4)
 3. [WIN32 API 프로그래밍 강의 (버튼/에디트 콘트롤)](https://www.youtube.com/watch?v=OKDMCVRAn4w)
