@@ -3,6 +3,10 @@
     /SUBSYSTEM:CONSOLE => mainCRTStartup / wmainCRTStartup => main / wmain
     /SUBSYSTEM:WINDOWS => WinMainCRTStartup / wWinMainCRTStartup => WinMain / wWinMain
     /DLL => _DllMainCRTStartup => DllMain
+
+    빈 프로젝트로 프로젝트를 생성 했을 때 WINAPI 함수를 쓸 때 헤더파일을 포함 시켰는데도 LNK2019 오류가 난다면
+    Visual Studio의 최신 표준 라이브러리 변경에 의해 추가해야 할 라이브러리들이 추가됐기 때문이다.
+    따라서 msvcrt.lib, ucrt.lib, vcruntime.lib 3개의 라이브러리를 추가 종속성에 추가 시켜줘야 한다.
 */
 
 
