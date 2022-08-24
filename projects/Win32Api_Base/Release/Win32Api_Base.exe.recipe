@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\hojin\WIN32_API\projects\Win32Api_WinMain\Release\Win32Api_WinMain.exe</FullPath>
+      <FullPath>C:\Users\hojin\WIN32_API\projects\Win32Api_Base\Release\Win32Api_Base.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
