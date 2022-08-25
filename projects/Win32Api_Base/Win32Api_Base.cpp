@@ -13,6 +13,8 @@
 #include "Win32Api_Base.h"
 
 // 전역변수
+HINSTANCE _hInst;
+
 static CONST CHAR AppTitle[] = "WIN32 메인 윈도우 창 템플릿";
 static CONST CHAR MainWindowClassName[] = "MainWnd";
 
@@ -56,6 +58,8 @@ int WinMainCRTStartup(void)
 //--------------------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, LPSTR CmdPrm, int CmdShow)
 {
+    _hInst = hInst;
+
     HWND hWnd;
     MSG msg;
     WNDCLASSEX wc;
