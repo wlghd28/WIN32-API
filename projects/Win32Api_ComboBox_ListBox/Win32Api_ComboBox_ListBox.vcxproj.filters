@@ -24,17 +24,17 @@
     <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Win32Api_ButtonControl_EditControl.h">
+    <ClInclude Include="Win32Api_ComboBox_ListBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Win32Api_ButtonControl_EditControl.cpp">
+    <ClCompile Include="Win32Api_ComboBox_ListBox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Win32Api_ButtonControl_EditControl.rc">
+    <ResourceCompile Include="Win32Api_ComboBox_ListBox.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -42,7 +42,7 @@
     <Image Include="small.ico">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="Win32Api_ButtonControl_EditControl.ico">
+    <Image Include="Win32Api_ComboBox_ListBox.ico">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

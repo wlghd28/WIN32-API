@@ -1,29 +1,36 @@
 ﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++에서 생성한 포함 파일입니다.
-// 다음에서 사용 Win32Api_ButtonControl_EditControl.rc
+// 다음에서 사용 Win32Api_ComboBox_ListBox.rc
 
 #define IDS_APP_TITLE			103
 
 #define IDR_MAINFRAME			128
-#define IDD_WIN32APIBUTTONCONTROLEDITCONTROL_DIALOG	102
+#define IDD_WIN32APICOMBOBOXLISTBOX_DIALOG	102
 #define IDD_ABOUTBOX			103
 #define IDM_ABOUT				104
 #define IDM_EXIT				105
-#define IDI_WIN32APIBUTTONCONTROLEDITCONTROL			107
+#define IDI_WIN32APICOMBOBOXLISTBOX			107
 #define IDI_SMALL				108
-#define IDC_WIN32APIBUTTONCONTROLEDITCONTROL			109
+#define IDC_WIN32APICOMBOBOXLISTBOX			109
 #define IDC_MYICON				2
-
-
-#define TEST1_BTNID     0
-#define TEST2_BTNID     1
-#define TEST3_BTNID     2
-#define TEST1_EDITID    3
-
-
 #ifndef IDC_STATIC
 #define IDC_STATIC				-1
 #endif
+
+
+#define PhoneBookNameEBID       100
+#define PhoneBookSexRBID        101 //(2)
+#define PhoneBookNumberEBID     103
+#define PhoneBookImportantCKID  104
+#define PhoneBookGroupCBID      105
+#define PhoneBookAddBTID        106
+#define PhoneBookDeleteBTID     107
+#define PhoneBookViewerLBID     108
+
+
+
+
+
 // 다음은 새 개체에 사용할 기본값입니다.
 //
 #ifdef APSTUDIO_INVOKED
