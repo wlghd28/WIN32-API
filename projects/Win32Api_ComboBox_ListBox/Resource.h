@@ -18,14 +18,14 @@
 #endif
 
 
-#define PhoneBookNameEBID       100
-#define PhoneBookSexRBID        101 //(2)
-#define PhoneBookNumberEBID     103
-#define PhoneBookImportantCKID  104
-#define PhoneBookGroupCBID      105
-#define PhoneBookAddBTID        106
-#define PhoneBookDeleteBTID     107
-#define PhoneBookViewerLBID     108
+#define PhoneBookNameEBID       200
+#define PhoneBookSexRBID        201 //(2)
+#define PhoneBookNumberEBID     203
+#define PhoneBookImportantCKID  204
+#define PhoneBookGroupCBID      205
+#define PhoneBookAddBTID        206
+#define PhoneBookDeleteBTID     207
+#define PhoneBookViewerLBID     208
 
 
 

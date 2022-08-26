@@ -14,13 +14,14 @@
 
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
-WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
-WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다. 
+CHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
+CHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다. 
 
 static CONST CHAR AppTitle[] = "콤보박스와 리스트박스 활용";
 static CONST CHAR MainWindowClassName[] = "MainWnd";
 static CONST CHAR DispText[] = "메인 윈도우 입니다.";
 static int TextPosX, TextPosY;
+ 
 
 // 매크로함수 정의
 #define CREATEBUTTON(Title, Style, X,Y, SX, SY, hWnd, ID)       \
@@ -54,9 +55,9 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+int APIENTRY WinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
+                     _In_ LPSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
@@ -101,7 +102,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
-    WNDCLASSEXW wcex;
+    WNDCLASSEX wcex;
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
@@ -112,12 +113,12 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hInstance      = hInstance;
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WIN32APICOMBOBOXLISTBOX));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_WIN32APICOMBOBOXLISTBOX);
+    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.lpszMenuName   = MAKEINTRESOURCE(IDC_WIN32APICOMBOBOXLISTBOX);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-    return RegisterClassExW(&wcex);
+    return RegisterClassEx(&wcex);
 }
 
 //
@@ -134,8 +135,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+   HWND hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+      CW_USEDEFAULT, 0, 360, 460,
+       nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -165,10 +167,12 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
     case WM_CREATE:
         CreateControl(hWnd);
         break;
+
     case WM_COMMAND:
             WM_CmdProc(hWnd, message, wParam, lParam);
             return DefWindowProc(hWnd, message, wParam, lParam);      
         break;
+
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
@@ -177,9 +181,11 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
             EndPaint(hWnd, &ps);
         }
         break;
+
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
@@ -297,21 +303,21 @@ void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 //-----------------------------------------------------------------------------
 void WINAPI CreateControl(HWND hWnd)
 {
-    CREATESTATIC("이름", SS_RIGHT, 10, 10, 80, 20, hWnd, -1);
-    CREATEEDIT("", ES_AUTOHSCROLL | WS_BORDER, 100, 8, 100, 24, hWnd, PhoneBookNameEBID);
-    CREATEBUTTON("남", BS_AUTORADIOBUTTON, 220, 10, 50, 20, hWnd, PhoneBookSexRBID);
-    CREATEBUTTON("여", BS_AUTORADIOBUTTON, 280, 10, 50, 20, hWnd, PhoneBookSexRBID + 1);
+    CREATESTATIC    (    "이름",                   SS_RIGHT,  10, 10,  80,   20, hWnd,                       -1);
+    CREATEEDIT      (        "", ES_AUTOHSCROLL | WS_BORDER, 100,  8, 100,   24, hWnd,       PhoneBookNameEBID);
+    CREATEBUTTON    (      "남",         BS_AUTORADIOBUTTON, 220, 10,  50,   20, hWnd,        PhoneBookSexRBID);
+    CREATEBUTTON    (      "여",         BS_AUTORADIOBUTTON, 280, 10,  50,   20, hWnd,    PhoneBookSexRBID + 1);
 
-    CREATESTATIC("전화번호", SS_RIGHT, 10, 40, 80, 20, hWnd, -1);
-    CREATEEDIT("", ES_AUTOHSCROLL | WS_BORDER, 100, 38, 100, 24, hWnd, PhoneBookNumberEBID);
-    CREATEBUTTON("중요", BS_AUTOCHECKBOX, 220, 40, 50, 20, hWnd, PhoneBookImportantCKID);
+    CREATESTATIC    ("전화번호",                   SS_RIGHT,  10, 40,  80,   20, hWnd,                      -1);
+    CREATEEDIT      (        "", ES_AUTOHSCROLL | WS_BORDER, 100, 38, 100,   24, hWnd,     PhoneBookNumberEBID);
+    CREATEBUTTON    (    "중요",            BS_AUTOCHECKBOX, 220, 40,  50,   20, hWnd,  PhoneBookImportantCKID);
 
-    CREATESTATIC("분류", SS_RIGHT, 10, 70, 80, 20, hWnd, -1);
-    CREATECOMBOBOX("", CBS_DROPDOWNLIST, 100, 68, 100, 100, hWnd, PhoneBookGroupCBID);
-    CREATEBUTTON("추가", 0, 220, 68, 50, 24, hWnd, PhoneBookAddBTID);
-    CREATEBUTTON("삭제", 0, 280, 68, 50, 24, hWnd, PhoneBookDeleteBTID);
+    CREATESTATIC    (    "분류",                   SS_RIGHT,  10, 70,  80,   20, hWnd,                      -1);
+    CREATECOMBOBOX  (        "",           CBS_DROPDOWNLIST, 100, 68, 100,  100, hWnd,      PhoneBookGroupCBID);
+    CREATEBUTTON    (    "추가",                          0, 220, 68,  50,   24, hWnd,        PhoneBookAddBTID);
+    CREATEBUTTON    (    "삭제",                          0, 280, 68,  50,   24, hWnd,     PhoneBookDeleteBTID);
 
-    CREATELISTBOX("", LBS_SORT | WS_BORDER, 10, 100, 320, 300, hWnd, PhoneBookViewerLBID);
+    CREATELISTBOX   (        "",       LBS_SORT | WS_BORDER,  10, 100, 320, 300, hWnd,     PhoneBookViewerLBID);
 
     CB_AddString(hWnd, PhoneBookGroupCBID, "가족");
     CB_AddString(hWnd, PhoneBookGroupCBID, "친구");
@@ -387,6 +393,4 @@ BOOL WINAPI CheckDuplicateName(HWND hWnd, LPCSTR ToFileStr)
     }
     return FALSE;
 }
-
-
 
