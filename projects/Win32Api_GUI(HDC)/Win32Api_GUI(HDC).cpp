@@ -125,6 +125,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 {
     switch (message)
     {
+    case WM_CREATE:
+        CreateControl(hWnd);
+        break;
     case WM_COMMAND:
         WM_CmdProc(hWnd, message, wParam, lParam);
         return DefWindowProc(hWnd, message, wParam, lParam);
@@ -132,7 +135,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+            DrawAll(hWnd, ps.hdc);
             EndPaint(hWnd, &ps);
         }
         break;
@@ -193,5 +196,59 @@ void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void WINAPI CreateControl(HWND hWnd)
 {
 
+
+}
+
+
+//-----------------------------------------------------------------------------
+//       hBitmap을 그림
+//-----------------------------------------------------------------------------
+void WINAPI DrawBitmap(HDC hDC, int DestX, int DestY, int Width, int Height,
+    HBITMAP hBtm, int SrcX, int SrcY)
+{
+    HDC hMemDC;
+
+    hMemDC = CreateCompatibleDC(hDC);
+    SelectObject(hMemDC, hBtm);
+    BitBlt(hDC, DestX, DestY, Width, Height, hMemDC, SrcX, SrcY, SRCCOPY);
+    DeleteDC(hMemDC);
+}
+
+HBITMAP WINAPI LoadBitmapFile(LPCSTR FileName)
+{
+    return (HBITMAP)LoadImage(NULL, FileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+}
+
+
+
+//-----------------------------------------------------------------------------
+//      모든 화면 그리는 동작
+//-----------------------------------------------------------------------------
+static void WINAPI DrawAll(HWND hWnd, HDC hDC)
+{
+    HPEN hPenOld;
+    HBRUSH hBrOld;
+    HBITMAP hBtm;
+    static CONST CHAR DispText[] = "메인 윈도우 입니다.";
+
+    TextOut(hDC, 0, 0, DispText, lstrlen(DispText));
+
+    //팬사용
+    // SelectObject : HDC가 가지고 있던 이전의 HOBJECT를 반환한다.
+    hPenOld = (HPEN)SelectObject(hDC, CreatePen(PS_DASHDOTDOT, 1, RGB(255, 0, 0)));
+    MoveToEx(hDC, 100, 100, NULL);
+    LineTo(hDC, 200, 200);
+    DeleteObject(SelectObject(hDC, hPenOld));
+
+    //브러시사용
+    hBrOld = (HBRUSH)SelectObject(hDC, CreateSolidBrush(RGB(0, 255, 0)));
+    SelectObject(hDC, GetStockObject(NULL_PEN));
+    Ellipse(hDC, 100, 100, 400, 400);
+    DeleteObject(SelectObject(hDC, hBrOld));
+
+    if ((hBtm = LoadBitmapFile("LSK.BMP")) != NULL)
+    {
+        DrawBitmap(hDC, 500, 10, 200, 200, hBtm, 50, 50);
+    }
 
 }
