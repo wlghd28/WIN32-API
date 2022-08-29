@@ -222,7 +222,7 @@ void WINAPI WM_Timer(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case STARTCLOCK:
     {
-        CHAR Buff[3];
+        CHAR Buff[4];
         SYSTEMTIME ST;
 
         GetLocalTime(&ST);
@@ -380,7 +380,7 @@ static void WINAPI DrawSevenSegment(HWND hWnd, HDC hDC)
     RECT  R;
     POINT P;
     HBITMAP hBtm;
-    CHAR Buff[3];
+    CHAR Buff[4];
 
     if ((hBtm = LoadBitmapFile("WOOD.BMP")) != NULL)
     {
