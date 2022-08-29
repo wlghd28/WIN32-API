@@ -1,8 +1,8 @@
-﻿// Win32Api_Static.cpp : 애플리케이션에 대한 진입점을 정의합니다.
+﻿// Win32Api_Custom.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
 
 #include "framework.h"
-#include "Win32Api_Static.h"
+#include "Win32Api_Custom.h"
 
 #define MAX_LOADSTRING 100
 
@@ -10,24 +10,13 @@
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 CHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 CHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
-static CONST CHAR AppTitle[] = "콤보박스와 리스트박스 활용";
+
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    MainWndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-
-// 매크로 함수 정의
-#define CREATEBUTTON(Title, Style, X,Y, SX, SY, hWnd, ID)       \
-    CreateWindow("BUTTON", Title, Style|WS_CHILD|WS_VISIBLE,    \
-                 X,Y, SX, SY, hWnd, (HMENU)(ID), hInst, NULL)   \
-
-#define CREATESTATIC(Title, Style, X,Y, SX, SY, hWnd, ID)       \
-    CreateWindow("STATIC", Title, Style|WS_CHILD|WS_VISIBLE,    \
-                 X,Y, SX, SY, hWnd, (HMENU)(ID), hInst, NULL)   \
-
-
 
 int APIENTRY WinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -41,7 +30,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,
 
     // 전역 문자열을 초기화합니다.
     LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadString(hInstance, IDC_WIN32APISTATIC, szWindowClass, MAX_LOADSTRING);
+    LoadString(hInstance, IDC_WIN32APICUSTOM, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
     // 애플리케이션 초기화를 수행합니다:
@@ -50,7 +39,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WIN32APISTATIC));
+    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WIN32APICUSTOM));
 
     MSG msg;
 
@@ -85,10 +74,10 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbClsExtra     = 0;
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WIN32APISTATIC));
+    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WIN32APICUSTOM));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCE(IDC_WIN32APISTATIC);
+    wcex.lpszMenuName   = MAKEINTRESOURCE(IDC_WIN32APICUSTOM);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -140,9 +129,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
     case WM_CREATE:
         CreateControl(hWnd);
         break;
-    case WM_COMMAND:    
+    case WM_COMMAND:
         WM_CmdProc(hWnd, message, wParam, lParam);
-        return DefWindowProc(hWnd, message, wParam, lParam);      
+        return DefWindowProc(hWnd, message, wParam, lParam);
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
@@ -181,6 +170,8 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 
+
+
 //-----------------------------------------------------------------------------
 //      메인 윈도우 WM_COMMAND 메세지 처리
 //-----------------------------------------------------------------------------
@@ -197,17 +188,7 @@ void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         DestroyWindow(hWnd);
         break;
 
-    case IDC_GETDATE:
-    {
-        CHAR Buff[80];
-        SYSTEMTIME st;
-
-        SendDlgItemMessage(hWnd, IDC_DATETIME, DTM_GETSYSTEMTIME, 0, (LPARAM)&st);
-        wsprintf(Buff, "%d-%d-%d", st.wYear, st.wMonth, st.wDay);
-        MessageBox(hWnd, Buff, AppTitle, MB_OK);
-    }
-        break;
-
+  
     default:
         break;
     }
@@ -219,21 +200,6 @@ void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 //-----------------------------------------------------------------------------
 void WINAPI CreateControl(HWND hWnd)
 {
-    CREATESTATIC("", SS_SUNKEN, 10, 10, 300, 2, hWnd, -1);
-    CREATESTATIC("타이틀", SS_SUNKEN | SS_CENTER, 10, 20, 300, 20, hWnd, -1);
-    CREATESTATIC("", SS_ETCHEDFRAME, 10, 50, 300, 20, hWnd, -1);
-
-    CREATESTATIC("", SS_ICON, 10, 100, 32, 32, hWnd, PhoneBookStatic1SSID);
-    CREATEBUTTON("그룹", BS_GROUPBOX, 10, 150, 300, 50, hWnd, -1);
-
-    SendDlgItemMessage(hWnd, PhoneBookStatic1SSID, STM_SETICON, (WPARAM)LoadIcon(NULL, IDI_QUESTION), 0);
-
-    CreateWindow("SysDateTimePick32", "", WS_CHILD | WS_VISIBLE, 
-        10, 220, 100, 20, 
-        hWnd, (HMENU)(IDC_DATETIME), hInst, NULL);
-
-
-
-    CREATEBUTTON("GetDate", 0, 10, 250, 100, 20, hWnd, IDC_GETDATE);
+   
 
 }

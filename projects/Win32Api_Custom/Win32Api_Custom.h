@@ -1,10 +1,8 @@
 #pragma once
 
 #include "resource.h"
-#include <CommCtrl.h>
 
+// 함수선언
 
-// 함수 선언
 void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
 void WINAPI CreateControl(HWND hWnd);
