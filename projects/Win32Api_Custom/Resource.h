@@ -13,6 +13,12 @@
 #define IDI_SMALL				108
 #define IDC_WIN32APICUSTOM			109
 #define IDC_MYICON				2
+
+#define SEVENSEGMENT1ID 200
+#define SEVENSEGMENT2ID 201
+
+
+
 #ifndef IDC_STATIC
 #define IDC_STATIC				-1
 #endif
