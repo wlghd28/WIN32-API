@@ -139,12 +139,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bitmap.h" />
+    <ClInclude Include="Blank.h" />
+    <ClInclude Include="FND.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Win32Api_Custom.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bitmap.cpp" />
+    <ClCompile Include="Blank.cpp" />
+    <ClCompile Include="FND.cpp" />
     <ClCompile Include="Win32Api_Custom.cpp" />
   </ItemGroup>
   <ItemGroup>

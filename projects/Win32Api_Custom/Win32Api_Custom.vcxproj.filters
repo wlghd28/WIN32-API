@@ -27,9 +27,27 @@
     <ClInclude Include="Win32Api_Custom.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="FND.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Blank.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Bitmap.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32Api_Custom.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FND.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Blank.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Bitmap.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
