@@ -136,7 +136,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
     {
     case WM_CREATE:
         CreateControl(hWnd);
-        InitTreeView(hWnd, &hTr1, &hTr2);
+        InitTreeView(hWnd);
         break;
     case WM_COMMAND:
         WM_CmdProc(hWnd, message, wParam, lParam);
@@ -221,34 +221,89 @@ void WINAPI CreateControl(HWND hWnd)
         10, 10, _iWindow_Width - 30 - 100, _iWindow_Height - 80,
         (HWND)hWnd, (HMENU)TreeViewID, hInst, NULL);
 
-    CreateWindow("BUTTON", "삭제", WS_CHILD | WS_VISIBLE,
-        _iWindow_Width - 30 - 100 + 20, 10, 80, 40,
-        (HWND)hWnd, (HMENU)DeleteItemBtnID, hInst, NULL);
+    //CreateWindow("BUTTON", "삭제", WS_CHILD | WS_VISIBLE,
+    //    _iWindow_Width - 30 - 100 + 20, 10, 80, 40,
+    //    (HWND)hWnd, (HMENU)DeleteItemBtnID, hInst, NULL);
 
 }
 
 //-----------------------------------------------------------------------------
 //      트리뷰 초기화
 //-----------------------------------------------------------------------------
-void WINAPI InitTreeView(HWND hWnd, HTREEITEM* hTr1, HTREEITEM* hTr2)
+void WINAPI InitTreeView(HWND hWnd)
 {
-    (* hTr1) = TV_InsertItem(hWnd, TreeViewID, NULL, TVI_LAST, "메인1", 0);
-    TV_InsertItem(hWnd, TreeViewID, (*hTr1), TVI_LAST, "서브1-1", 0);
-    TV_InsertItem(hWnd, TreeViewID, (*hTr1), TVI_LAST, "서브1-1", 0);
-    (* hTr2) = TV_InsertItem(hWnd, TreeViewID, (*hTr1), TVI_LAST, "서브1-1", 0);
-    TV_InsertItem(hWnd, TreeViewID, (*hTr2), TVI_LAST, "서브1-1-1", 0);
-    TV_InsertItem(hWnd, TreeViewID, (*hTr2), TVI_LAST, "서브1-1-2", 0);
-    TV_InsertItem(hWnd, TreeViewID, (*hTr2), TVI_LAST, "서브1-1-3", 0);
+    /*hTr1 = TV_InsertItem(hWnd, TreeViewID, NULL, TVI_LAST, "메인1", 0);
+    TV_InsertItem(hWnd, TreeViewID, hTr1, TVI_LAST, "서브1-1", 0);
+    TV_InsertItem(hWnd, TreeViewID, hTr1, TVI_LAST, "서브1-1", 0);
+    hTr2 = TV_InsertItem(hWnd, TreeViewID, hTr1, TVI_LAST, "서브1-1", 0);
+    TV_InsertItem(hWnd, TreeViewID, hTr2, TVI_LAST, "서브1-1-1", 0);
+    TV_InsertItem(hWnd, TreeViewID, hTr2, TVI_LAST, "서브1-1-2", 0);
+    TV_InsertItem(hWnd, TreeViewID, hTr2, TVI_LAST, "서브1-1-3", 0);
 
-    (*hTr1) = TV_InsertItem(hWnd, TreeViewID, NULL, TVI_LAST, "메인2", 0);
-    TV_InsertItem(hWnd, TreeViewID, (*hTr1), TVI_LAST, "서브2-1", 0);
-    TV_InsertItem(hWnd, TreeViewID, (*hTr1), TVI_LAST, "서브2-1", 0);
-    TV_InsertItem(hWnd, TreeViewID, (*hTr1), TVI_LAST, "서브2-1", 0);
+    hTr1 = TV_InsertItem(hWnd, TreeViewID, NULL, TVI_LAST, "메인2", 0);
+    TV_InsertItem(hWnd, TreeViewID, hTr1, TVI_LAST, "서브2-1", 0);
+    TV_InsertItem(hWnd, TreeViewID, hTr1, TVI_LAST, "서브2-1", 0);
+    TV_InsertItem(hWnd, TreeViewID, hTr1, TVI_LAST, "서브2-1", 0);
     TV_InsertItem(hWnd, TreeViewID, NULL, TVI_LAST, "메인3", 0);
-    TV_InsertItem(hWnd, TreeViewID, NULL, TVI_LAST, "메인4", 0);
+    TV_InsertItem(hWnd, TreeViewID, NULL, TVI_LAST, "메인4", 0);*/
+
+
+    CHAR cArrPath[MAX_PATH];
+
+    //GetWindowsDirectory(cArrPath, MAX_PATH);
+    sprintf(cArrPath, "%s", "C:");
+
+    strcat(cArrPath, "\\*.*");
+
+    //printf("%s\n", cArrPath);
+
+    FileList(hWnd, NULL, cArrPath);
 
 }
 
+//-----------------------------------------------------------------------------
+//      윈도우 파일리스트 탐색
+//-----------------------------------------------------------------------------
+void FileList(HWND hWnd, HTREEITEM htr, char* path)
+{
+    HANDLE hSrch;
+    WIN32_FIND_DATA wfd;
+    BOOL bResult = TRUE;
+    char drive[_MAX_DRIVE];
+    char dir[MAX_PATH];
+    char newpath[MAX_PATH];
+    HTREEITEM htr_after;
+
+    //printf("\n검색 경로 = %s\n", path);
+
+    hSrch = FindFirstFile(path, &wfd);
+
+    if (hSrch == INVALID_HANDLE_VALUE) return;
+
+    _splitpath(path, drive, dir, NULL, NULL);
+
+    while (bResult) 
+    {
+        if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) 
+        {
+            if (strcmp(wfd.cFileName, ".") && strcmp(wfd.cFileName, "..")) 
+            {
+                htr_after = TV_InsertItem(hWnd, TreeViewID, htr, TVI_LAST, wfd.cFileName, 0);
+                sprintf(newpath, "%s%s%s\\*.*", drive, dir, wfd.cFileName);
+                FileList(hWnd, htr_after, newpath);
+            }
+        }
+        else 
+        {
+            //printf("%s%s%s\n", drive, dir, wfd.cFileName);
+            TV_InsertItem(hWnd, TreeViewID, htr, TVI_LAST, wfd.cFileName, 0);
+        }
+
+        bResult = FindNextFile(hSrch, &wfd);
+    }
+
+    FindClose(hSrch);
+}
 
 
 //-----------------------------------------------------------------------------

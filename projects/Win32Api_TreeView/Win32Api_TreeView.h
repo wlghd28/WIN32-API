@@ -5,11 +5,13 @@
 #include <Commctrl.h>   //TreeView
 
 // 함수 선언
+void FileList(HWND hWnd, HTREEITEM htr, char* path);
+
 void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 void WINAPI CreateControl(HWND hWnd);
 
-void WINAPI InitTreeView(HWND hWnd, HTREEITEM* hTr1, HTREEITEM* hTr2);
+void WINAPI InitTreeView(HWND hWnd);
 
 static VOID WINAPI DrawAll(HWND hWnd, HDC hDC);
 
