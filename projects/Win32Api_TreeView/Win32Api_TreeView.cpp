@@ -6,10 +6,13 @@
 
 #define MAX_LOADSTRING 100
 
+
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 CHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 CHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+int _iWindow_Width = 800;
+int _iWindow_Height = 600;
 
 static CONST CHAR AppTitle[] = "WIN32 메인 윈도우 창 템플릿";
 static CONST CHAR MainWindowClassName[] = "MainWnd";
@@ -102,7 +105,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
    HWND hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, 800, 630, nullptr, nullptr, hInstance, nullptr);
+      CW_USEDEFAULT, 0, _iWindow_Width, _iWindow_Height, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -215,11 +218,11 @@ void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void WINAPI CreateControl(HWND hWnd)
 {
     CreateWindow(/*WC_TREEVIEW*/"SysTreeView32", "", TVS_SHOWSELALWAYS | TVS_LINESATROOT | TVS_HASLINES | TVS_HASBUTTONS | WS_CHILD | WS_VISIBLE | WS_BORDER,
-        10, 10, 800 - 30 - 100, 600 - 50,
+        10, 10, _iWindow_Width - 30 - 100, _iWindow_Height - 80,
         (HWND)hWnd, (HMENU)TreeViewID, hInst, NULL);
 
     CreateWindow("BUTTON", "삭제", WS_CHILD | WS_VISIBLE,
-        800 - 30 - 100 + 20, 10, 80, 40,
+        _iWindow_Width - 30 - 100 + 20, 10, 80, 40,
         (HWND)hWnd, (HMENU)DeleteItemBtnID, hInst, NULL);
 
 }
@@ -269,15 +272,15 @@ HTREEITEM WINAPI TV_InsertItem(HWND hWnd, int TVID, HTREEITEM hParent, HTREEITEM
 {
     TV_INSERTSTRUCT TVIS;
 
-    if (TVID != 0) hWnd = GetDlgItem(hWnd, TVID);
+    if (TVID != 0) hWnd = GetDlgItem(hWnd, TVID);                           // 핸들을 윈도우 부모핸들에서 TreeControl 핸들로 변경
     TVIS.hParent = hParent;
     TVIS.hInsertAfter = hInsAfter;
-    TVIS.item.mask = TVIF_TEXT | TVIF_PARAM;         //TVIF_SELECTEDIMAGE|TVIF_IMAGE|
+    TVIS.item.mask = TVIF_TEXT | TVIF_PARAM;                                //TVIF_SELECTEDIMAGE|TVIF_IMAGE|
     TVIS.item.pszText = (LPSTR)Str;
     TVIS.item.lParam = lPrm;
     //TVIS.item.iImage  =
     //TVIS.item.iSelectedImage=ImageNo;
-    return (HTREEITEM)SendMessage(hWnd, TVM_INSERTITEM, 0, (LPARAM)&TVIS);
+    return (HTREEITEM)SendMessage(hWnd, TVM_INSERTITEM, 0, (LPARAM)&TVIS);  // SendMessage 쓰는 이유 >> TreeControl 핸들로도 함수를 호출하는 경우도 있기 때문에 범용으로 사용하기 위함
     //return (HTREEITEM)SendDlgItemMessage(hWnd, TVID, TVM_INSERTITEM, 0, (LPARAM)&TVIS);
 }
 

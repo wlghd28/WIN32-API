@@ -14,7 +14,6 @@
 #define IDC_WIN32APITREEVIEW			109
 #define IDC_MYICON				2
 
-
 #define TreeViewID          200
 #define DeleteItemBtnID     201
 
