@@ -141,6 +141,11 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
     case WM_COMMAND:
         WM_CmdProc(hWnd, message, wParam, lParam);
         return DefWindowProc(hWnd, message, wParam, lParam);
+
+    case WM_NOTIFY:
+        WM_NotifyProc(hWnd, message, wParam, lParam);
+        return DefWindowProc(hWnd, message, wParam, lParam);
+
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
@@ -204,13 +209,59 @@ void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             break;
         }
         TV_DeleteItem(hWnd, TreeViewID, hTr1);
-
+        break;
 
     default:
         break;
     }
 
 }
+
+//-----------------------------------------------------------------------------
+//      메인 윈도우 WM_NOTIFY 메세지 처리
+//-----------------------------------------------------------------------------
+void WINAPI WM_NotifyProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    int wmId = LOWORD(wParam);
+    NMTREEVIEW* pNmtv = (NMTREEVIEW*)lParam;
+    // 메뉴 선택을 구문 분석합니다:
+    switch (wmId)
+    {
+    case TreeViewID:
+    {
+        switch (pNmtv->hdr.code)
+        {
+        case NM_CLICK:
+            break;
+
+        case TVN_ITEMEXPANDED:
+        {
+            if (pNmtv->itemNew.state & TVIS_EXPANDED)   // 확장
+            {
+                //printf("확장\n");
+                TVITEM item = TV_GetCurSelected(hWnd, TreeViewID, pNmtv);
+                printf("%s\n", item.pszText);
+            }
+            else  // 축소
+            {
+                //printf("축소\n");
+                PostMessage(pNmtv->hdr.hwndFrom, TVM_EXPAND, TVE_COLLAPSE | TVE_COLLAPSERESET, reinterpret_cast<LPARAM>(pNmtv->itemNew.hItem));
+            }
+       
+        }
+            break;
+
+        default:
+            break;
+        }
+    }
+        break;
+    default:
+        break;
+    }
+}
+
+
 
 //-----------------------------------------------------------------------------
 //      컨트롤 생성
@@ -286,11 +337,16 @@ void FileList(HWND hWnd, HTREEITEM htr, char* path)
     {
         if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) 
         {
+            //printf("%s\n", wfd.cFileName);
+
             if (strcmp(wfd.cFileName, ".") && strcmp(wfd.cFileName, "..")) 
             {
+                //printf("%s\n", wfd.cFileName);
+
                 htr_after = TV_InsertItem(hWnd, TreeViewID, htr, TVI_LAST, wfd.cFileName, 0);
                 sprintf(newpath, "%s%s%s\\*.*", drive, dir, wfd.cFileName);
-                FileList(hWnd, htr_after, newpath);
+                //FileList(hWnd, htr_after, newpath);
+                TV_InsertItem(hWnd, TreeViewID, htr_after, TVI_LAST, NULL, 0);
             }
         }
         else 
@@ -361,3 +417,19 @@ HTREEITEM WINAPI TV_GetCurSel(HWND hWnd, int TVID)
     return (HTREEITEM)SendMessage(hWnd, TVM_GETNEXTITEM, TVGN_CARET, NULL);
 }
 
+
+//-----------------------------------------------------------------------------
+//      TreeView의 현재선택된 아이템 정보를 얻습니다 (실패하면 Null) TreeView_GetSelection()
+//-----------------------------------------------------------------------------
+TVITEM WINAPI TV_GetCurSelected(HWND hWnd, int TVID, NMTREEVIEW* pNmtv)
+{
+    if (TVID != 0) hWnd = GetDlgItem(hWnd, TVID);
+    TVITEM item;
+    item.hItem = pNmtv->itemNew.hItem;
+    item.mask = TVIF_TEXT;
+    item.pszText = (LPSTR)LocalAlloc(LMEM_FIXED, sizeof(CHAR) * MAX_PATH);
+    item.cchTextMax = MAX_PATH;
+    ::SendMessage(hWnd, TVM_GETITEM, 0, (LPARAM)&item);
+
+    return item;
+}

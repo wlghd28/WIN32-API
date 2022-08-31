@@ -9,6 +9,8 @@ void FileList(HWND hWnd, HTREEITEM htr, char* path);
 
 void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
+void WINAPI WM_NotifyProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 void WINAPI CreateControl(HWND hWnd);
 
 void WINAPI InitTreeView(HWND hWnd);
@@ -20,3 +22,5 @@ HTREEITEM WINAPI TV_InsertItem(HWND hWnd, int TVID, HTREEITEM hParent, HTREEITEM
 BOOL WINAPI TV_DeleteItem(HWND hWnd, int TVID, HTREEITEM hItem);
 
 HTREEITEM WINAPI TV_GetCurSel(HWND hWnd, int TVID);
+
+TVITEM WINAPI TV_GetCurSelected(HWND hWnd, int TVID, NMTREEVIEW* pNmtv);
