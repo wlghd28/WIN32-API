@@ -21,6 +21,14 @@ HTREEITEM WINAPI TV_InsertItem(HWND hWnd, int TVID, HTREEITEM hParent, HTREEITEM
 
 BOOL WINAPI TV_DeleteItem(HWND hWnd, int TVID, HTREEITEM hItem);
 
+BOOL WINAPI TV_DeleteAllChildItem(HWND hWnd, int TVID, HTREEITEM hItem);
+
 HTREEITEM WINAPI TV_GetCurSel(HWND hWnd, int TVID);
 
-TVITEM WINAPI TV_GetCurSelected(HWND hWnd, int TVID, NMTREEVIEW* pNmtv);
+HTREEITEM WINAPI TV_GetParentCurSel(HWND hWnd, int TVID, HTREEITEM htr);
+
+HTREEITEM WINAPI TV_GetChildCurSel(HWND hWnd, int TVID, HTREEITEM htr);
+
+TVITEM WINAPI TV_GetItemInfo(HWND hWnd, int TVID, HTREEITEM htr);
+
+void WINAPI TV_GetItemPath(HWND hWnd, int TVID, HTREEITEM htr, char* path);

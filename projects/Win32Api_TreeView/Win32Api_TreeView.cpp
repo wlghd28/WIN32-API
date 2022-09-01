@@ -235,22 +235,37 @@ void WINAPI WM_NotifyProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             break;
 
         case TVN_ITEMEXPANDED:
+            break;
+
+        case TVN_ITEMEXPANDING:
         {
-            if (pNmtv->itemNew.state & TVIS_EXPANDED)   // 확장
+            if (!(pNmtv->itemNew.state & TVIS_EXPANDED))   // 확장
             {
                 //printf("확장\n");
-                TVITEM item = TV_GetCurSelected(hWnd, TreeViewID, pNmtv);
-                printf("%s\n", item.pszText);
+                HTREEITEM htrChild;
+                char cArr_ItemPath[MAX_PATH] = { 0, };
+                char cArr_DrivePath[MAX_PATH] = { 0, };
+                char cArr_ApsolPath[MAX_PATH] = { 0, };
+
+                TV_GetItemPath(hWnd, TreeViewID, pNmtv->itemNew.hItem, cArr_ItemPath);
+
+                sprintf(cArr_DrivePath, "%s", "C:");
+                sprintf(cArr_ApsolPath, "%s\\%s\\*.*", cArr_DrivePath, cArr_ItemPath);
+                //printf("%s\n", cArr_ApsolPath);
+
+                htrChild = TV_GetChildCurSel(hWnd, TreeViewID, pNmtv->itemNew.hItem);
+                if (htrChild)   TV_DeleteItem(hWnd,TreeViewID, htrChild);
+
+                FileList(hWnd, pNmtv->itemNew.hItem, cArr_ApsolPath);
             }
             else  // 축소
             {
                 //printf("축소\n");
-                PostMessage(pNmtv->hdr.hwndFrom, TVM_EXPAND, TVE_COLLAPSE | TVE_COLLAPSERESET, reinterpret_cast<LPARAM>(pNmtv->itemNew.hItem));
+                TV_DeleteAllChildItem(hWnd, TreeViewID, pNmtv->itemNew.hItem);
             }
-       
         }
             break;
-
+         
         default:
             break;
         }
@@ -320,10 +335,10 @@ void FileList(HWND hWnd, HTREEITEM htr, char* path)
     HANDLE hSrch;
     WIN32_FIND_DATA wfd;
     BOOL bResult = TRUE;
-    char drive[_MAX_DRIVE];
-    char dir[MAX_PATH];
-    char newpath[MAX_PATH];
-    HTREEITEM htr_after;
+    //char drive[_MAX_DRIVE];
+    //char dir[MAX_PATH];
+    //char newpath[MAX_PATH];
+    HTREEITEM htr_before;
 
     //printf("\n검색 경로 = %s\n", path);
 
@@ -331,7 +346,7 @@ void FileList(HWND hWnd, HTREEITEM htr, char* path)
 
     if (hSrch == INVALID_HANDLE_VALUE) return;
 
-    _splitpath(path, drive, dir, NULL, NULL);
+    //_splitpath(path, drive, dir, NULL, NULL);
 
     while (bResult) 
     {
@@ -342,11 +357,11 @@ void FileList(HWND hWnd, HTREEITEM htr, char* path)
             if (strcmp(wfd.cFileName, ".") && strcmp(wfd.cFileName, "..")) 
             {
                 //printf("%s\n", wfd.cFileName);
+                htr_before = TV_InsertItem(hWnd, TreeViewID, htr, TVI_LAST, wfd.cFileName, 0);
+                TV_InsertItem(hWnd, TreeViewID, htr_before, TVI_LAST, NULL, 0);
 
-                htr_after = TV_InsertItem(hWnd, TreeViewID, htr, TVI_LAST, wfd.cFileName, 0);
-                sprintf(newpath, "%s%s%s\\*.*", drive, dir, wfd.cFileName);
-                //FileList(hWnd, htr_after, newpath);
-                TV_InsertItem(hWnd, TreeViewID, htr_after, TVI_LAST, NULL, 0);
+                //sprintf(newpath, "%s%s%s\\*.*", drive, dir, wfd.cFileName);
+                //FileList(hWnd, htr_before, newpath);
             }
         }
         else 
@@ -406,7 +421,14 @@ BOOL WINAPI TV_DeleteItem(HWND hWnd, int TVID, HTREEITEM hItem)
     return (BOOL)SendMessage(hWnd, TVM_DELETEITEM, 0, (LPARAM)hItem);
 }
 
-
+//-----------------------------------------------------------------------------
+//      TreeView에서 선택된 항목의 자식 노드를 전부 삭제한다.
+//-----------------------------------------------------------------------------
+BOOL WINAPI TV_DeleteAllChildItem(HWND hWnd, int TVID, HTREEITEM hItem)
+{
+    if (TVID != 0) hWnd = GetDlgItem(hWnd, TVID);
+    return (BOOL)PostMessage(hWnd, TVM_EXPAND, TVE_COLLAPSE | TVE_COLLAPSERESET, reinterpret_cast<LPARAM>(hItem));
+}
 
 //-----------------------------------------------------------------------------
 //      TreeView의 현재선택된 항목을 얻습니다 (실패하면 Null) TreeView_GetSelection()
@@ -417,19 +439,60 @@ HTREEITEM WINAPI TV_GetCurSel(HWND hWnd, int TVID)
     return (HTREEITEM)SendMessage(hWnd, TVM_GETNEXTITEM, TVGN_CARET, NULL);
 }
 
+//-----------------------------------------------------------------------------
+//      TreeView의 현재선택된 항목의 부모 항목을 얻습니다 (실패하면 Null) TreeView_GetSelection()
+//-----------------------------------------------------------------------------
+HTREEITEM WINAPI TV_GetParentCurSel(HWND hWnd, int TVID, HTREEITEM htr)
+{
+    if (TVID != 0) hWnd = GetDlgItem(hWnd, TVID);
+    return (HTREEITEM)SendMessage(hWnd, TVM_GETNEXTITEM, TVGN_PARENT, (LPARAM)htr);
+}
 
 //-----------------------------------------------------------------------------
-//      TreeView의 현재선택된 아이템 정보를 얻습니다 (실패하면 Null) TreeView_GetSelection()
+//      TreeView의 현재선택된 항목의 첫번째 자식 항목을 얻습니다 (실패하면 Null) TreeView_GetSelection()
 //-----------------------------------------------------------------------------
-TVITEM WINAPI TV_GetCurSelected(HWND hWnd, int TVID, NMTREEVIEW* pNmtv)
+HTREEITEM WINAPI TV_GetChildCurSel(HWND hWnd, int TVID, HTREEITEM htr)
+{
+    if (TVID != 0) hWnd = GetDlgItem(hWnd, TVID);
+    return (HTREEITEM)SendMessage(hWnd, TVM_GETNEXTITEM, TVGN_CHILD, (LPARAM)htr);
+}
+
+
+//-----------------------------------------------------------------------------
+//      TreeView의 아이템 정보를 얻습니다 (실패하면 Null) TreeView_GetSelection()
+//-----------------------------------------------------------------------------
+TVITEM WINAPI TV_GetItemInfo(HWND hWnd, int TVID, HTREEITEM htr)
 {
     if (TVID != 0) hWnd = GetDlgItem(hWnd, TVID);
     TVITEM item;
-    item.hItem = pNmtv->itemNew.hItem;
+    item.hItem = htr;
     item.mask = TVIF_TEXT;
     item.pszText = (LPSTR)LocalAlloc(LMEM_FIXED, sizeof(CHAR) * MAX_PATH);
     item.cchTextMax = MAX_PATH;
     ::SendMessage(hWnd, TVM_GETITEM, 0, (LPARAM)&item);
 
     return item;
+}
+
+//-----------------------------------------------------------------------------
+//       TreeView에서 선택된 항목의 절대경로를 구합니다.
+//-----------------------------------------------------------------------------
+void WINAPI TV_GetItemPath(HWND hWnd, int TVID, HTREEITEM htr, char* path)
+{
+    if (htr == NULL) return;
+
+    HTREEITEM hItem_Parent = TV_GetParentCurSel(hWnd, TreeViewID, htr);
+
+    TVITEM tvItem_Current = TV_GetItemInfo(hWnd, TreeViewID, htr);
+
+    char tmpPath[MAX_PATH] = { 0, };
+
+    strcpy(tmpPath, path);
+
+    if(strlen(path) == 0)   sprintf(path, "%s", tvItem_Current.pszText);
+    else                    sprintf(path, "%s\\%s", tvItem_Current.pszText, tmpPath);
+
+    TV_GetItemPath(hWnd, TVID, hItem_Parent, path);
+
+    LocalFree(tvItem_Current.pszText);
 }
