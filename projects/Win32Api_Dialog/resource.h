@@ -29,11 +29,10 @@
 #define IDC_BUTTON_CHILD1_DELETE        208
 #define IDC_BUTTON_CHILD1_ADD           209
 #define EditBoxID                       300
-#define MainMenuID                      301
-#define ModalDialogCmdID                302
-#define ModallessDialogCmdID            303
 #define IDC_TAB_MAIN_PARENT             1001
 #define IDC_BUTTON_OK                   1003
+#define IDC_BUTTON_CHILD2_MODAL         1004
+#define IDC_BUTTON_CHILD2_MODALESS      1005
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
@@ -43,7 +42,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        136
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1004
+#define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

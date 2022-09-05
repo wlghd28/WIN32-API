@@ -196,15 +196,6 @@ void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         DestroyWindow(hWnd);
         break;
 
-    case ModalDialogCmdID:      //모달형 대화상자
-        WM_CmdProc_MainDialog(hWnd, message, wParam, lParam);
-        break;
-
-    case ModallessDialogCmdID:  //모달리스형 대화상자
-        WM_CmdProc_MainDialog(hWnd, message, wParam, lParam);
-        break;
-
-
     default:
         break;
     }

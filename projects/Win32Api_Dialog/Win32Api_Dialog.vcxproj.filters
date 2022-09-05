@@ -42,6 +42,9 @@
     <ClInclude Include="ChildDialog4.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="TestDialogID.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32Api_Dialog.cpp">
@@ -60,6 +63,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ChildDialog4.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TestDialogID.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

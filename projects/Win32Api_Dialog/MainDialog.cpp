@@ -102,15 +102,6 @@ void WINAPI WM_CmdProc_MainDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM
     case IDC_TAB_MAIN_PARENT:
         break;
 
-    case ModalDialogCmdID:      //모달형 대화상자
-        WM_CmdProc_ChildDialog2(hDlg, message, wParam, lParam);
-        break;
-
-    case ModallessDialogCmdID:  //모달리스형 대화상자
-        WM_CmdProc_ChildDialog2(hDlg, message, wParam, lParam);
-        break;
-
-
     default:
         break;
     }
