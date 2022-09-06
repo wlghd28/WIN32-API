@@ -163,6 +163,9 @@
     <ResourceCompile Include="Win32Api_Dialog.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\Cancel.bmp" />
+    <Image Include="res\Check.bmp" />
+    <Image Include="res\RedWell.bmp" />
     <Image Include="small.ico" />
     <Image Include="Win32Api_Dialog.ico" />
   </ItemGroup>

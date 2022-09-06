@@ -18,21 +18,57 @@
 #define IDD_CHILD_DIALOG3               133
 #define IDD_CHILD_DIALOG4               134
 #define TestDialogID                    135
-#define PhoneBookNameEBID               200
-#define InputPsnlInfoAddrEBID           201
-#define PhoneBookNumberEBID             202
-#define PhoneBookSexRBID                203
-#define PhoneBookImportantCKID          205
-#define PhoneBookViewerLVID             206
-#define PhoneBookGroupCBID              207
-#define PhoneBookDeleteBTID             208
+#define CancelBtmID                     136
+#define CheckBtmID                      137
+#define IDB_BITMAP1                     138
+#define DialogBkBtmID                   138
+#define IDC_EDIT_CHILD1_NAME            200
+#define IDC_EDIT_CHILD1_ADDRESS         201
+#define IDC_EDIT_CHILD1_PHONENUMBER     202
+#define IDC_RADIO_CHILD1_SEX            203
+#define IDC_CHECK_CHILD1_IMPORTANT      205
+#define IDC_LIST_CHILD1_VIEWER          206
+#define IDC_COMBO_CHILD1_GROUP          207
 #define IDC_BUTTON_CHILD1_DELETE        208
 #define IDC_BUTTON_CHILD1_ADD           209
-#define EditBoxID                       300
+
+
+
+#define IDC_BUTTON_CHILD2_MODAL         300
+#define IDC_BUTTON_CHILD2_MODALESS      301
+
+
+
+#define IDC_EDIT_CHILD3_NAME            400
+#define IDC_EDIT_CHILD3_ADDRESS         401
+#define IDC_EDIT_CHILD3_PHONENUMBER     402
+#define IDC_RADIO_CHILD3_SEX            403
+#define IDC_CHECK_CHILD3_IMPORTANT      405
+#define IDC_LIST_CHILD3_VIEWER          406
+#define IDC_COMBO_CHILD3_GROUP          407
+#define IDC_BUTTON_CHILD3_ADD           408
+#define IDC_BUTTON_CHILD3_DELETE        409
+#define IDC_BUTTON_CHILD3_CANCEL        410
+
+
+#define IDC_EDIT_CHILD4_NAME            500
+#define IDC_EDIT_CHILD4_ADDRESS         501
+#define IDC_EDIT_CHILD4_PHONENUMBER     502
+#define IDC_RADIO_CHILD4_SEX            503
+#define IDC_CHECK_CHILD4_IMPORTANT      505
+#define IDC_LIST_CHILD4_VIEWER          506
+#define IDC_COMBO_CHILD4_GROUP          507
+#define IDC_BUTTON_CHILD4_ADD           508
+#define IDC_BUTTON_CHILD4_DELETE        509
+#define IDC_BUTTON_CHILD4_CANCEL        510
+
+
+
+
+
+
+#define EditBoxID                       500
 #define IDC_TAB_MAIN_PARENT             1001
-#define IDC_BUTTON_OK                   1003
-#define IDC_BUTTON_CHILD2_MODAL         1004
-#define IDC_BUTTON_CHILD2_MODALESS      1005
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
@@ -40,9 +76,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        136
+#define _APS_NEXT_RESOURCE_VALUE        139
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1005
+#define _APS_NEXT_CONTROL_VALUE         1007
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

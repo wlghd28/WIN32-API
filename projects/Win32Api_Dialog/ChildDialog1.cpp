@@ -46,21 +46,21 @@ INT_PTR WINAPI InitChildDialog1(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 {
     RECT rect_Client;
     GetClientRect(GetParent(hDlg), &rect_Client);
-    MoveWindow(hDlg, 0, 50, rect_Client.right - rect_Client.left, rect_Client.bottom - rect_Client.top, TRUE);
+    MoveWindow(hDlg, 0, 20, rect_Client.right - rect_Client.left, rect_Client.bottom - rect_Client.top, TRUE);
     ShowWindow(hDlg, SW_SHOW);
 
 
-    SendDlgItemMessage(hDlg, PhoneBookViewerLVID, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
-    LV_InsertColumn(hDlg, PhoneBookViewerLVID, 0, 70, "이름", 0);
-    LV_InsertColumn(hDlg, PhoneBookViewerLVID, 1, 40, "성별", 0);
-    LV_InsertColumn(hDlg, PhoneBookViewerLVID, 2, 80, "전화번호", 0);
-    LV_InsertColumn(hDlg, PhoneBookViewerLVID, 3, 40, "중요", 0);
-    LV_InsertColumn(hDlg, PhoneBookViewerLVID, 4, 60, "분류", 0);
+    SendDlgItemMessage(hDlg, IDC_LIST_CHILD1_VIEWER, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
+    LV_InsertColumn_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, 0, 70, "이름", 0);
+    LV_InsertColumn_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, 1, 40, "성별", 0);
+    LV_InsertColumn_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, 2, 80, "전화번호", 0);
+    LV_InsertColumn_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, 3, 40, "중요", 0);
+    LV_InsertColumn_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, 4, 60, "분류", 0);
 
-    CB_AddString(hDlg, PhoneBookGroupCBID, "가족");
-    CB_AddString(hDlg, PhoneBookGroupCBID, "친구");
-    CB_AddString(hDlg, PhoneBookGroupCBID, "동아리");
-    CB_AddString(hDlg, PhoneBookGroupCBID, "기타");
+    CB_AddString_Child1(hDlg, IDC_COMBO_CHILD1_GROUP, "가족");
+    CB_AddString_Child1(hDlg, IDC_COMBO_CHILD1_GROUP, "친구");
+    CB_AddString_Child1(hDlg, IDC_COMBO_CHILD1_GROUP, "동아리");
+    CB_AddString_Child1(hDlg, IDC_COMBO_CHILD1_GROUP, "기타");
 
 
     return TRUE;
@@ -82,60 +82,60 @@ void WINAPI WM_CmdProc_ChildDialog1(HWND hDlg, UINT message, WPARAM wParam, LPAR
     switch (wprm)
     {
     case IDC_BUTTON_CHILD1_ADD:      //추가버튼
-        GetDlgItemText(hDlg, PhoneBookNameEBID, Name, sizeof(Name));
+        GetDlgItemText(hDlg, IDC_EDIT_CHILD1_NAME, Name, sizeof(Name));
         if (Name[0] == 0)
         {
             MessageBox(hDlg, "이름을 입력하세요.", AppTitle, MB_OK);
-            SetFocus(GetDlgItem(hDlg, PhoneBookNameEBID));
+            SetFocus(GetDlgItem(hDlg, IDC_EDIT_CHILD1_NAME));
             break;
         }
 
-        if (CheckDuplicateName(hDlg, Name))
+        if (CheckDuplicateName_Child1(hDlg, Name))
         {
             MessageBox(hDlg, "이미 같은 이름이 있습니다.", AppTitle, MB_OK);
-            SetFocus(GetDlgItem(hDlg, PhoneBookNameEBID));
+            SetFocus(GetDlgItem(hDlg, IDC_EDIT_CHILD1_NAME));
             break;
         }
 
-        GetDlgItemText(hDlg, PhoneBookNumberEBID, TelNo, sizeof(TelNo));
+        GetDlgItemText(hDlg, IDC_EDIT_CHILD1_PHONENUMBER, TelNo, sizeof(TelNo));
         if (TelNo[0] == 0)
         {
             MessageBox(hDlg, "전화번호를 입력하세요.", AppTitle, MB_OK);
-            SetFocus(GetDlgItem(hDlg, PhoneBookNumberEBID));
+            SetFocus(GetDlgItem(hDlg, IDC_EDIT_CHILD1_PHONENUMBER));
             break;
         }
 
-        GetDlgItemText(hDlg, PhoneBookGroupCBID, Group, sizeof(Group));
+        GetDlgItemText(hDlg, IDC_COMBO_CHILD1_GROUP, Group, sizeof(Group));
         if (Group[0] == 0)
         {
             MessageBox(hDlg, "분류를 선택하세요.", AppTitle, MB_OK);
-            SetFocus(GetDlgItem(hDlg, PhoneBookGroupCBID));
+            SetFocus(GetDlgItem(hDlg, IDC_COMBO_CHILD1_GROUP));
             break;
         }
 
-        Sex = IsDlgButtonChecked(hDlg, PhoneBookSexRBID);
-        Importent = IsDlgButtonChecked(hDlg, PhoneBookImportantCKID);
+        Sex = IsDlgButtonChecked(hDlg, IDC_RADIO_CHILD1_SEX);
+        Importent = IsDlgButtonChecked(hDlg, IDC_CHECK_CHILD1_IMPORTANT);
 
         wnsprintf(Buff, sizeof(Buff), "%s %s %s %s %s", Group, Name, TelNo,
             Sex != 0 ? "남" : "여", Importent != 0 ? "중요" : "");
 
         //LB_AddString(hWnd, PhoneBookViewerLBID, Buff);
-        Row = LV_GetItemCount(hDlg, PhoneBookViewerLVID);
-        LV_InsertItem(hDlg, PhoneBookViewerLVID, Row, Name, 0);
-        LV_SetItemText(hDlg, PhoneBookViewerLVID, Row, 1, Sex != 0 ? "남" : "여");
-        LV_SetItemText(hDlg, PhoneBookViewerLVID, Row, 2, TelNo);
-        LV_SetItemText(hDlg, PhoneBookViewerLVID, Row, 3, Importent != 0 ? "√" : "");
-        LV_SetItemText(hDlg, PhoneBookViewerLVID, Row, 4, Group);
+        Row = LV_GetItemCount_Child1(hDlg, IDC_LIST_CHILD1_VIEWER);
+        LV_InsertItem_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, Row, Name, 0);
+        LV_SetItemText_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, Row, 1, Sex != 0 ? "남" : "여");
+        LV_SetItemText_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, Row, 2, TelNo);
+        LV_SetItemText_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, Row, 3, Importent != 0 ? "√" : "");
+        LV_SetItemText_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, Row, 4, Group);
 
         break;
 
     case IDC_BUTTON_CHILD1_DELETE:   //삭제버튼
-        if ((I = LV_GetSelected(hDlg, PhoneBookViewerLVID, -1)) < 0)
+        if ((I = LV_GetSelected_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, -1)) < 0)
         {
             MessageBox(hDlg, "삭제할 항목을 선택하세요.", AppTitle, MB_OK);
             break;
         }
-        LV_DeleteItem(hDlg, PhoneBookViewerLVID, I);
+        LV_DeleteItem_Child1(hDlg, IDC_LIST_CHILD1_VIEWER, I);
         break;
 
     default:
@@ -184,7 +184,7 @@ VOID Printf_Child1(LPCSTR FormStr, ...)
 //-----------------------------------------------------------------------------
 //      이름이 중복되면 TRUE를 리턴함
 //-----------------------------------------------------------------------------
-BOOL WINAPI CheckDuplicateName(HWND hWnd, LPCSTR ToFileStr)
+BOOL WINAPI CheckDuplicateName_Child1(HWND hWnd, LPCSTR ToFileStr)
 {
     return FALSE;
 }
@@ -196,7 +196,7 @@ BOOL WINAPI CheckDuplicateName(HWND hWnd, LPCSTR ToFileStr)
 //      ListView의 컴럼추가
 //      Align= LVCFMT_LEFT/LVCFMT_CENTER/LVCFMT_RIGHT
 //-----------------------------------------------------------------------------
-VOID WINAPI LV_InsertColumn(HWND hWnd, int LVID, int Column, int Width, LPCSTR ColumnName, int Align)
+VOID WINAPI LV_InsertColumn_Child1(HWND hWnd, int LVID, int Column, int Width, LPCSTR ColumnName, int Align)
 {
     LV_COLUMN  LVC;
 
@@ -212,7 +212,7 @@ VOID WINAPI LV_InsertColumn(HWND hWnd, int LVID, int Column, int Width, LPCSTR C
 //-----------------------------------------------------------------------------
 //      ListView에서 한줄 추가
 //-----------------------------------------------------------------------------
-int WINAPI LV_InsertItem(HWND hWnd, int LVID, int Row, LPCSTR DataStr, LPARAM ItemData)
+int WINAPI LV_InsertItem_Child1(HWND hWnd, int LVID, int Row, LPCSTR DataStr, LPARAM ItemData)
 {
     LV_ITEM LVI;
 
@@ -230,7 +230,7 @@ int WINAPI LV_InsertItem(HWND hWnd, int LVID, int Row, LPCSTR DataStr, LPARAM It
 //-----------------------------------------------------------------------------
 //      ListView의 Item수를 얻음
 //-----------------------------------------------------------------------------
-int WINAPI LV_GetItemCount(HWND hWnd, int LVID)
+int WINAPI LV_GetItemCount_Child1(HWND hWnd, int LVID)
 {
     return SendDlgItemMessage(hWnd, LVID, LVM_GETITEMCOUNT, 0, 0);
 }
@@ -240,7 +240,7 @@ int WINAPI LV_GetItemCount(HWND hWnd, int LVID)
 //-----------------------------------------------------------------------------
 //      ListView Item Text설정
 //-----------------------------------------------------------------------------
-VOID WINAPI LV_SetItemText(HWND hWnd, int LVID, int Row, int Column, LPCSTR DataStr)
+VOID WINAPI LV_SetItemText_Child1(HWND hWnd, int LVID, int Row, int Column, LPCSTR DataStr)
 {
     LV_ITEM LVI;
 
@@ -256,7 +256,7 @@ VOID WINAPI LV_SetItemText(HWND hWnd, int LVID, int Row, int Column, LPCSTR Data
 //-----------------------------------------------------------------------------
 //      ListView의 선택된 Item번호를 얻음 (실패인경우 -1)
 //-----------------------------------------------------------------------------
-int WINAPI LV_GetSelected(HWND hWnd, int LVID, int StartItemNo)
+int WINAPI LV_GetSelected_Child1(HWND hWnd, int LVID, int StartItemNo)
 {
     return (int)SendDlgItemMessage(hWnd, LVID, LVM_GETNEXTITEM, StartItemNo, LVNI_SELECTED);
 }
@@ -266,7 +266,7 @@ int WINAPI LV_GetSelected(HWND hWnd, int LVID, int StartItemNo)
 //-----------------------------------------------------------------------------
 //      ListView의 주어진 Item을 삭제함
 //-----------------------------------------------------------------------------
-BOOL WINAPI LV_DeleteItem(HWND hWnd, int LVID, int DelItemNo)
+BOOL WINAPI LV_DeleteItem_Child1(HWND hWnd, int LVID, int DelItemNo)
 {
     return (BOOL)SendDlgItemMessage(hWnd, LVID, LVM_DELETEITEM, DelItemNo, 0);
 }
@@ -276,7 +276,7 @@ BOOL WINAPI LV_DeleteItem(HWND hWnd, int LVID, int DelItemNo)
 //-----------------------------------------------------------------------------
 //      콤보박스에 항목 추가
 //-----------------------------------------------------------------------------
-int WINAPI CB_AddString(HWND hWnd, int CBID, LPCSTR ToAddStr)
+int WINAPI CB_AddString_Child1(HWND hWnd, int CBID, LPCSTR ToAddStr)
 {
     return SendDlgItemMessage(hWnd, CBID, CB_ADDSTRING, 0, (LPARAM)ToAddStr);
 }

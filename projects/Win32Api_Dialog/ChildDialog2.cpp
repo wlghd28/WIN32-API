@@ -55,7 +55,7 @@ INT_PTR WINAPI InitChildDialog2(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 {
     RECT rect_Client;
     GetClientRect(GetParent(hDlg), &rect_Client);
-    MoveWindow(hDlg, 0, 50, rect_Client.right - rect_Client.left, rect_Client.bottom - rect_Client.top, TRUE);
+    MoveWindow(hDlg, 0, 20, rect_Client.right - rect_Client.left, rect_Client.bottom - rect_Client.top, TRUE);
     ShowWindow(hDlg, SW_HIDE);
 
     return TRUE;
@@ -70,12 +70,12 @@ void WINAPI WM_CmdProc_ChildDialog2(HWND hDlg, UINT message, WPARAM wParam, LPAR
     switch (wprm)
     {
     case IDC_BUTTON_CHILD2_MODAL:      //모달형 대화상자
-        DialogBox(hInst, MAKEINTRESOURCE(TestDialogID), hDlg, ModalTestDlgProc);
+        DialogBox(hInst, MAKEINTRESOURCE(TestDialogID), hDlg, (DLGPROC)ModalTestDlgProc);
         break;
 
     case IDC_BUTTON_CHILD2_MODALESS:  //모달리스형 대화상자
         if (hWndModalless != NULL) break;
-        hWndModalless = CreateDialog(hInst, MAKEINTRESOURCE(TestDialogID), hDlg, ModallessTestDlgProc);
+        hWndModalless = CreateDialog(hInst, MAKEINTRESOURCE(TestDialogID), hDlg, (DLGPROC)ModallessTestDlgProc);
         break;
 
     default:

@@ -81,5 +81,14 @@
     <Image Include="Win32Api_Dialog.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="res\Cancel.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\Check.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RedWell.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>
