@@ -1,6 +1,5 @@
 ﻿// Win32Api_Dialog.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
-
 #include "framework.h"
 #include "Win32Api_Dialog.h"
 
@@ -11,31 +10,38 @@
 
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
+#ifdef CREATEWINDOW
 CHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 CHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
-
 
 HWND hWnd_Main;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
-BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    MainWndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+#endif
+BOOL                InitInstance(HINSTANCE, int);
 
 int APIENTRY WinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: 여기에 코드를 입력합니다.
+    // 공용 컨트롤 초기화
+    InitCommonControls();
 
+
+#ifdef CREATEWINDOW
     // 전역 문자열을 초기화합니다.
     LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadString(hInstance, IDC_WIN32APIDIALOG, szWindowClass, MAX_LOADSTRING);
+
     MyRegisterClass(hInstance);
 
     // 애플리케이션 초기화를 수행합니다:
@@ -44,8 +50,6 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    // 공용 컨트롤 초기화
-    InitCommonControls();
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WIN32APIDIALOG));
 
@@ -62,10 +66,23 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,
     }
 
     return (int) msg.wParam;
+#endif
+
+
+#ifdef CREATEDIALOG
+    // 애플리케이션 초기화를 수행합니다:
+    if (!InitInstance(hInstance, nCmdShow))
+    {
+        return FALSE;
+    }
+
+    return 0;
+#endif
+
 }
 
 
-
+#ifdef CREATEWINDOW
 //
 //  함수: MyRegisterClass()
 //
@@ -91,7 +108,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
     return RegisterClassEx(&wcex);
 }
-
+#endif
 //
 //   함수: InitInstance(HINSTANCE, int)
 //
@@ -106,9 +123,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+#ifdef CREATEWINDOW
+
    HWND hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
-
 
    if (!hWnd)
    {
@@ -119,9 +137,17 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    UpdateWindow(hWnd);
 
 
+
+#endif
+
+#ifdef CREATEDIALOG
+   DialogBox(hInst, MAKEINTRESOURCE(IDD_MAIN_DIALOG), NULL, MainDialog_CmdProc);
+#endif
+
    return TRUE;
 }
 
+#ifdef CREATEWINDOW
 //
 //  함수: MainWndProc(HWND, UINT, WPARAM, LPARAM)
 //
@@ -150,6 +176,8 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
         }
         break;
     case WM_DESTROY:
+        if(hWnd_Main != NULL) DestroyWindow(hWnd_Main);
+        hWnd_Main = NULL;
         PostQuitMessage(0);
         break;
     default:
@@ -201,3 +229,4 @@ void WINAPI WM_CmdProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
 
 }
+#endif

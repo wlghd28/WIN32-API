@@ -38,6 +38,9 @@ INT_PTR CALLBACK ChildDialog1_CmdProc(HWND hDlg, UINT message, WPARAM wParam, LP
     case WM_NOTIFY:
         WM_NotifyProc_ChildDialog1(hDlg, message, wParam, lParam);
         break;
+
+    case WM_DESTROY:
+        break;
     }
     return (INT_PTR)FALSE;
 }

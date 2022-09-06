@@ -62,6 +62,8 @@ INT_PTR CALLBACK ChildDialog3_CmdProc(HWND hDlg, UINT message, WPARAM wParam, LP
         }
 
         break;
+
+
     }
     return (INT_PTR)FALSE;
 }

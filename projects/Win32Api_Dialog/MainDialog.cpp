@@ -20,11 +20,13 @@ HWND hWnd_Child4;
 //-----------------------------------------------------------------------------
 INT_PTR WINAPI InitMainDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+#ifdef CREATEWINDOW
     // 다이얼로그 크기 설정
     RECT rect_Client;
     GetClientRect(GetParent(hDlg), &rect_Client);
     MoveWindow(hDlg, 0, 0, rect_Client.right - rect_Client.left, rect_Client.bottom - rect_Client.top, TRUE);
     ShowWindow(hDlg, SW_SHOW);
+#endif
 
     // 부모 탭 컨트롤 초기화
     TCITEM Tab_Main_Parent;
@@ -86,6 +88,17 @@ INT_PTR CALLBACK MainDialog_CmdProc(HWND hDlg, UINT message, WPARAM wParam, LPAR
 
     case WM_NOTIFY:
         WM_NotifyProc_MainDialog(hDlg, message, wParam, lParam);
+        break;
+
+    case WM_DESTROY:
+        if (hWnd_Child1 != NULL) DestroyWindow(hWnd_Child1);
+        if (hWnd_Child2 != NULL) DestroyWindow(hWnd_Child2);
+        if (hWnd_Child3 != NULL) DestroyWindow(hWnd_Child3);
+        if (hWnd_Child4 != NULL) DestroyWindow(hWnd_Child4);
+        hWnd_Child1 = NULL;
+        hWnd_Child2 = NULL;
+        hWnd_Child3 = NULL;
+        hWnd_Child4 = NULL;
         break;
     }
     return (INT_PTR)FALSE;

@@ -2,6 +2,10 @@
 // Microsoft Visual C++에서 생성한 포함 파일입니다.
 // Win32Api_Dialog.rc에서 사용되고 있습니다.
 //
+//#define CREATEWINDOW
+#define CREATEDIALOG
+
+
 #define IDC_MYICON                      2
 #define IDD_WIN32APIDIALOG_DIALOG       102
 #define IDS_APP_TITLE                   103
@@ -31,14 +35,8 @@
 #define IDC_COMBO_CHILD1_GROUP          207
 #define IDC_BUTTON_CHILD1_DELETE        208
 #define IDC_BUTTON_CHILD1_ADD           209
-
-
-
 #define IDC_BUTTON_CHILD2_MODAL         300
 #define IDC_BUTTON_CHILD2_MODALESS      301
-
-
-
 #define IDC_EDIT_CHILD3_NAME            400
 #define IDC_EDIT_CHILD3_ADDRESS         401
 #define IDC_EDIT_CHILD3_PHONENUMBER     402
@@ -49,9 +47,8 @@
 #define IDC_BUTTON_CHILD3_ADD           408
 #define IDC_BUTTON_CHILD3_DELETE        409
 #define IDC_BUTTON_CHILD3_CANCEL        410
-
-
 #define IDC_EDIT_CHILD4_NAME            500
+#define EditBoxID                       500
 #define IDC_EDIT_CHILD4_ADDRESS         501
 #define IDC_EDIT_CHILD4_PHONENUMBER     502
 #define IDC_RADIO_CHILD4_SEX            503
@@ -61,13 +58,6 @@
 #define IDC_BUTTON_CHILD4_ADD           508
 #define IDC_BUTTON_CHILD4_DELETE        509
 #define IDC_BUTTON_CHILD4_CANCEL        510
-
-
-
-
-
-
-#define EditBoxID                       500
 #define IDC_TAB_MAIN_PARENT             1001
 #define IDC_STATIC                      -1
 
