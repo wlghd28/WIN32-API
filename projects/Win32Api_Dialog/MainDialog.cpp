@@ -13,21 +13,33 @@ HWND hWnd_Child2;
 HWND hWnd_Child3;
 HWND hWnd_Child4;
 
+// 정보 대화 상자의 메시지 처리기입니다.
+INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    UNREFERENCED_PARAMETER(lParam);
+    switch (message)
+    {
+    case WM_INITDIALOG:
+        return (INT_PTR)TRUE;
+
+    case WM_COMMAND:
+        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+        {
+            EndDialog(hDlg, LOWORD(wParam));
+            return (INT_PTR)TRUE;
+        }
+        break;
+    }
+    return (INT_PTR)FALSE;
+}
+
+
 // 메인 다이얼로그 함수 정의
-// 
 //-----------------------------------------------------------------------------
 //      메인 다이얼로그 초기화
 //-----------------------------------------------------------------------------
 INT_PTR WINAPI InitMainDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-#ifdef CREATEWINDOW
-    // 다이얼로그 크기 설정
-    RECT rect_Client;
-    GetClientRect(GetParent(hDlg), &rect_Client);
-    MoveWindow(hDlg, 0, 0, rect_Client.right - rect_Client.left, rect_Client.bottom - rect_Client.top, TRUE);
-    ShowWindow(hDlg, SW_SHOW);
-#endif
-
     // 부모 탭 컨트롤 초기화
     TCITEM Tab_Main_Parent;
     Tab_Main_Parent.mask = TCIF_TEXT;
@@ -112,6 +124,13 @@ void WINAPI WM_CmdProc_MainDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM
     int wprm = LOWORD(wParam);
     switch (wprm)
     {
+    case IDM_ABOUT:
+        DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hDlg, About);
+        break;
+    case IDM_EXIT:
+        DestroyWindow(hDlg);
+        break;
+
     case IDC_TAB_MAIN_PARENT:
         break;
 
