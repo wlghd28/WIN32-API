@@ -49,6 +49,7 @@ INT_PTR CALLBACK ChildDialog3_CmdProc(HWND hDlg, UINT message, WPARAM wParam, LP
         DeleteObject(hBrBtnBG_Child3);
         break;
     case WM_DRAWITEM:
+
         if (LOWORD(wParam) == IDC_BUTTON_CHILD3_ADD)
         {
             DrawOwnerButton_Child3((DRAWITEMSTRUCT*)lParam, CheckBtmID);
@@ -362,24 +363,24 @@ VOID WINAPI DrawOwnerButton_Child3(DRAWITEMSTRUCT* DIS, int BtmID)
 
     R = DIS->rcItem;
 
+    FillRect(DIS->hDC, &DIS->rcItem, hBrBtnBG_Child3);     //바탕을 그림
+
     //테두리를 그림
-    DrawTwoColorRect_Child3(DIS->hDC, &R, RGB(255, 255, 255), RGB(105, 105, 105));
+    DrawTwoColorRect_Child3(DIS->hDC, &R, (DIS->itemState & ODS_SELECTED) ? RGB(105, 105, 105) : RGB(255, 255, 255), RGB(105, 105, 105));
     InflateRect(&R, -1, -1);
     DrawTwoColorRect_Child3(DIS->hDC, &R, RGB(227, 227, 227), RGB(160, 160, 160));
     InflateRect(&R, -1, -1);
 
-    FillRect(DIS->hDC, &DIS->rcItem, hBrBtnBG_Child3);     //바탕을 그림
 
     if ((hBtm = LoadBitmap(hInst, MAKEINTRESOURCE(BtmID))) != NULL)
     {
         GetObject(hBtm, sizeof(BITMAP), &BI);
 
+        if (DIS->itemState & ODS_SELECTED) OffsetRect(&R, 1, 1);    //눌린모양표현
+
         DrawBitmap_Child3(DIS->hDC, R.left + 5, R.top + ((R.bottom - R.top - BI.bmHeight) >> 1),
             BI.bmWidth, BI.bmHeight,
             hBtm, 0, 0, SRCCOPY);
-
-        InflateRect(&R, -2, -2);
-        if (DIS->itemState & ODS_SELECTED) OffsetRect(&R, 1, 1);    //눌린모양표현
 
         //버튼의 타이틀을 표시함
         GetWindowText(DIS->hwndItem, Buff, sizeof(Buff));
@@ -387,6 +388,8 @@ VOID WINAPI DrawOwnerButton_Child3(DRAWITEMSTRUCT* DIS, int BtmID)
         //SetBkColor(DIS->hDC, RGB(192,192,192));
         SetBkMode(DIS->hDC, TRANSPARENT);
         DrawText(DIS->hDC, Buff, -1, &R, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+        DeleteObject(hBtm);
     }
 }
 

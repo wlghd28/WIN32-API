@@ -48,19 +48,19 @@ INT_PTR CALLBACK ChildDialog4_CmdProc(HWND hDlg, UINT message, WPARAM wParam, LP
         DeleteObject(hBrEditBG_Child4);
         break;
 
-    case WM_ERASEBKGND:
+    case WM_ERASEBKGND:         // 다이얼로그 배경을 그릴 때 오는 메시지
         DrawDialogBkGround(hDlg, (HDC)wParam);
         return TRUE;
 
-    case WM_CTLCOLORSTATIC:
+    case WM_CTLCOLORSTATIC:     // STATIC 컨트롤을 그릴 때 오는 메시지
         SetBkMode((HDC)wParam, TRANSPARENT);
-        return (BOOL)GetStockObject(NULL_BRUSH);
+        return (INT_PTR)GetStockObject(NULL_BRUSH);
 
-    case WM_CTLCOLOREDIT:
+    case WM_CTLCOLOREDIT:       // EDIT 컨트롤을 그릴 때 오는 메시지
         SetBkColor((HDC)wParam, RGB(0, 255, 0));
-        return (BOOL)hBrEditBG_Child4;
+        return (INT_PTR)hBrEditBG_Child4;
 
-    case WM_DRAWITEM:
+    case WM_DRAWITEM:           // 소유자 그리기 속성이 설정되어있는 컨트롤을 그릴 때 오는 메시지
         if (LOWORD(wParam) == IDC_BUTTON_CHILD4_ADD)
         {
             DrawOwnerButton_Child4((DRAWITEMSTRUCT*)lParam, CheckBtmID);
@@ -319,7 +319,7 @@ BOOL WINAPI LV_DeleteItem_Child4(HWND hWnd, int LVID, int DelItemNo)
 //-----------------------------------------------------------------------------
 int WINAPI CB_AddString_Child4(HWND hWnd, int CBID, LPCSTR ToAddStr)
 {
-    return SendDlgItemMessage(hWnd, CBID, CB_ADDSTRING, 0, (LPARAM)ToAddStr);
+    return (int)SendDlgItemMessage(hWnd, CBID, CB_ADDSTRING, 0, (LPARAM)ToAddStr);
 }
 
 
@@ -405,7 +405,7 @@ VOID WINAPI DrawOwnerButton_Child4(DRAWITEMSTRUCT* DIS, int BtmID)
 
 
 //-----------------------------------------------------------------------------
-//      대화상자 바탕을 그립니다
+//      대화상자 바탕을 그립니다 (타일 방식으로 이어 붙임)
 //-----------------------------------------------------------------------------
 VOID WINAPI DrawDialogBkGround(HWND hWnd, HDC hDC)
 {
@@ -422,7 +422,9 @@ VOID WINAPI DrawDialogBkGround(HWND hWnd, HDC hDC)
         for (Y = 0; Y < R.bottom; Y += BI.bmHeight)
         {
             for (X = 0; X < R.right; X += BI.bmWidth)
+            {
                 DrawBitmap_Child4(hDC, X, Y, BI.bmWidth, BI.bmHeight, hBtm, 0, 0, SRCCOPY);
+            }
         }
 
         DeleteObject(hBtm);
