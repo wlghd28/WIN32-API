@@ -25,7 +25,8 @@ DLGFNC(PreferFontDlgProc)
         case PSN_KILLACTIVE:    //이 TAB이 닫힐 때
             I = FALSE;
             //입력한 값이 문제가 있는 경우 I=TRUE 설정
-            SetWindowLong(hWnd, DWL_MSGRESULT, I);      //DWL_MSGRESULT에 TRUE를 입력하면 이 페이지를 떠나지 않음
+            //SetWindowLong(hWnd, DWL_MSGRESULT, I);      //DWL_MSGRESULT에 TRUE를 입력하면 이 페이지를 떠나지 않음
+            SetWindowLong(hWnd, DWLP_MSGRESULT, I);      //DWL_MSGRESULT에 TRUE를 입력하면 이 페이지를 떠나지 않음
             return TRUE;                                //TRUE를 리턴하지 않으면 위와 같이 해도 소용없음
 
         case PSN_APPLY:         //확인을 눌렀을 때

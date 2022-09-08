@@ -27,7 +27,8 @@ DLGFNC(SetupInfoDlgProc)
             return TRUE;
 
         case PSN_KILLACTIVE:
-            SetWindowLong(hWnd, DWL_MSGRESULT, FALSE);
+            //SetWindowLong(hWnd, DWL_MSGRESULT, FALSE);
+            SetWindowLong(hWnd, DWLP_MSGRESULT, FALSE);
             return TRUE;
 
         case PSN_RESET:         //이페이지가 한번이라도 열린 후 취소버튼을 눌렀을 때 (다른 페이지에서 눌러도 옴)
@@ -36,7 +37,8 @@ DLGFNC(SetupInfoDlgProc)
             if (CurrentPage == 0) //닫기 버튼을 눌렀을 때 현재 페이지에서만 대화상자를 띄우기 위함임
             {
                 if (MessageBox(GetParent(hWnd), "설치하지 않고 종료합니다.", AppTitle, MB_OKCANCEL) != IDOK)
-                    SetWindowLong(hWnd, DWL_MSGRESULT, TRUE);   //종료하지 않음
+                    //SetWindowLong(hWnd, DWL_MSGRESULT, TRUE);   //종료하지 않음
+                    SetWindowLong(hWnd, DWLP_MSGRESULT, TRUE);   //종료하지 않음
             }
             return TRUE;
 

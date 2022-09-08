@@ -59,11 +59,11 @@ LOCAL(BOOL) SetPreference(HWND hWnd)
     PROPSHEETHEADER PSH;
     PROPSHEETPAGE   PSP[5];
 
-    SetPropsheetPage(PSP, PreferColorDlgProc, PreferColorDialog);
-    SetPropsheetPage(PSP + 1, PreferViewDlgProc, PreferViewDialog);
-    SetPropsheetPage(PSP + 2, PreferStartWndDlgProc, PreferStartWndDialog);
-    SetPropsheetPage(PSP + 3, PreferFontDlgProc, PreferFontDialog);
-    SetPropsheetPage(PSP + 4, PreferEtcSetDlgProc, PreferEtcSetDialog);
+    SetPropsheetPage(PSP, (DLGPROC)PreferColorDlgProc, PreferColorDialog);
+    SetPropsheetPage(PSP + 1, (DLGPROC)PreferViewDlgProc, PreferViewDialog);
+    SetPropsheetPage(PSP + 2, (DLGPROC)PreferStartWndDlgProc, PreferStartWndDialog);
+    SetPropsheetPage(PSP + 3, (DLGPROC)PreferFontDlgProc, PreferFontDialog);
+    SetPropsheetPage(PSP + 4, (DLGPROC)PreferEtcSetDlgProc, PreferEtcSetDialog);
 
     PSH.dwSize = sizeof(PROPSHEETHEADER);
     PSH.dwFlags = PSH_PROPSHEETPAGE | PSH_USEHICON; //PSH_USECALLBACK
@@ -73,10 +73,11 @@ LOCAL(BOOL) SetPreference(HWND hWnd)
     PSH.pszCaption = AppTitle;
     PSH.nPages = countof(PSP);
     PSH.nStartPage = PreferPropSheetPage;  //처음 보여줄 페이지
-    PSH.hIcon = (HICON)GetClassLong(hWnd, GCL_HICON);
+    //PSH.hIcon = (HICON)GetClassLong(hWnd, GCL_HICON);
+    PSH.hIcon = (HICON)GetClassLong(hWnd, GCLP_HICON);
     //PSH.pfnCallback     = SetPropSheetPosCB;
     PSH.ppsp = PSP;
-    return PropertySheet(&PSH);
+    return (BOOL)PropertySheet(&PSH);
 }
 
 

@@ -105,12 +105,12 @@ LOCAL(int) CreateExpert(HWND hWndOwner, LPCSTR lpTitle)
     PROPSHEETPAGE   PSP[6];
     PROPSHEETHEADER PSH;
 
-    SetPropertyPage(PSP + 0, SetupInfoDialog, SetupInfoDlgProc, lpTitle);
-    SetPropertyPage(PSP + 1, WaitQuitMainDialog, WaitQuitMainPgmDlgProc, lpTitle);
-    SetPropertyPage(PSP + 2, InputSetupFolderDialog, InputSetupFolderDlgProc, lpTitle);
-    SetPropertyPage(PSP + 3, InputStartMenuNameDialog, InputStartMenuFolderDlgProc, lpTitle);
-    SetPropertyPage(PSP + 4, ReadyToInstallDialog, ReadyToInstallDlgProc, lpTitle);
-    SetPropertyPage(PSP + 5, StartSetupDialog, StartSetupDlgProc, lpTitle);
+    SetPropertyPage(PSP + 0, SetupInfoDialog, (DLGPROC)SetupInfoDlgProc, lpTitle);
+    SetPropertyPage(PSP + 1, WaitQuitMainDialog, (DLGPROC)WaitQuitMainPgmDlgProc, lpTitle);
+    SetPropertyPage(PSP + 2, InputSetupFolderDialog, (DLGPROC)InputSetupFolderDlgProc, lpTitle);
+    SetPropertyPage(PSP + 3, InputStartMenuNameDialog, (DLGPROC)InputStartMenuFolderDlgProc, lpTitle);
+    SetPropertyPage(PSP + 4, ReadyToInstallDialog, (DLGPROC)ReadyToInstallDlgProc, lpTitle);
+    SetPropertyPage(PSP + 5, StartSetupDialog, (DLGPROC)StartSetupDlgProc, lpTitle);
 
     PSH.dwSize = sizeof(PROPSHEETHEADER);
     PSH.dwFlags = PSH_PROPSHEETPAGE | PSH_WIZARD | PSH_NOAPPLYNOW;
